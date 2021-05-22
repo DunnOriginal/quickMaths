@@ -12,8 +12,9 @@ export default class BootScene extends Phaser.Scene {
 
     console.table(images);
 
+    //https://aztrakatze.itch.io/simple-cute-robot
     this.load.image('space', images.space);
-    this.load.image('logo', images.logo);
+    this.load.image('logo', images.ballred);
     this.load.image('red', images.red);
 
     this.load.on('progress', function (progress) {
