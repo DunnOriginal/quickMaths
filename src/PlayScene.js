@@ -81,7 +81,7 @@ export default class PlayScene extends Phaser.Scene {
     if (this.paused || this.gameState !== GameState.Running)
 		{
       this.gameOver();
-      this.scene.pause('play');
+      // this.scene.pause('play');
 			return;
 		}    
    
@@ -109,8 +109,6 @@ export default class PlayScene extends Phaser.Scene {
     this.time.removeEvent(this.timedEvent ); 
 
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.createInvader, callbackScope: this,  repeat: 4 });
-
-
   }
 
   processPlayerInput()
@@ -125,12 +123,10 @@ export default class PlayScene extends Phaser.Scene {
       }
 
       else if (event.key == 'Backspace') {
-        // Remove Key
         this.scene.backSpace();
       }
 
       else if (event.key == "Enter") {
-        // Send fire request
         this.scene.playerFire(this.scene.textInput.text)
         this.scene.clearText();
       }
@@ -142,10 +138,8 @@ export default class PlayScene extends Phaser.Scene {
 	}
 
   playerFire(number){
-    // This will be when the user hits enter
-    // See this if entered number matches any of the invaders clear
     let flag = false
-    this.arrayInvaders.children.each(function(invader){
+    this.arrayInvaders.children.each(function(invader) {
 
       if(!flag && number == invader.getData('answer')){
         invader.label.destroy();
@@ -216,14 +210,13 @@ export default class PlayScene extends Phaser.Scene {
   }
 
     invader.label = this.add.text(labelXPos, labelYPos , string , textConfig).setOrigin(0.15, 0.5);
-    invader.label.depth=4;
-    // console.log(invader.label);
+    invader.label.depth= 4;
   }
 
   updatInvader(invader) {
     invader.label.y = invader.body.position.y;
   }
-
+ 
   updatInvaders () {
     this.arrayInvaders.children.each(function(invader){
       this.updatInvader(invader);
@@ -231,7 +224,11 @@ export default class PlayScene extends Phaser.Scene {
   }
 
   gameOver() {
-    this.timedEvent.remove(false);
+    this.arrayInvaders.children.each(function(invader){
+      invader.body.setVelocityY(0);
+    })
+    this.time.removeEvent(this.timedEvent); 
+    // this.timedEvent.remove(false);
   }
 
 
