@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 import images from './assets/*.png';
+import sounds from './assets/sounds/*.wav' ;
+import * as AudioKeys from './consts/AudioKeys'
 
 export default class BootScene extends Phaser.Scene {
   constructor () {
@@ -10,12 +12,16 @@ export default class BootScene extends Phaser.Scene {
     var bg = this.add.rectangle(400, 300, 400, 30, 0x666666);
     var bar = this.add.rectangle(bg.x, bg.y, bg.width, bg.height, 0xffffff).setScale(0, 1);
 
-    console.table(images);
+    console.table(sounds);
 
     //https://aztrakatze.itch.io/simple-cute-robot
     this.load.image('space', images.space);
     this.load.image('logo', images.ballred);
-    this.load.image('red', images.red);
+    // this.load.image('logo', images.ballred);
+
+
+    this.load.audio(AudioKeys.level3, sounds.level3);
+		this.load.audio(AudioKeys.title, sounds.title);
 
     this.load.on('progress', function (progress) {
       bar.setScale(progress, 1);

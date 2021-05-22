@@ -12,6 +12,8 @@ export default class EndScene extends Phaser.Scene {
   create (data) {
     this.add.image(400, 300, 'space');
 
+    this.game.sound.stopAll();
+
     this.add.text(400, 100, 'Game Over\n\n High Score: '+ data.highScore +'\n\n< Press R to Restart >', {
       align: 'center',
       fill: 'white',

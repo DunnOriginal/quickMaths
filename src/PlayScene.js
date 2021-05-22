@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 
+import * as AudioKeys from './consts/AudioKeys'
+
 const GameState = {
 	Running: 'running',
 	PlayerLoss: 'player-loss',
@@ -49,7 +51,7 @@ export default class PlayScene extends Phaser.Scene {
     this.textValue = 0;
 
     // Invader Vel
-    this.invaderVelocity = 100;
+    this.invaderVelocity = 20;
 
   }
 
@@ -71,6 +73,7 @@ export default class PlayScene extends Phaser.Scene {
     /// Create and set Invaders through look
     this.arrayInvaders = this.add.group();
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.createInvader, callbackScope: this,  repeat: 4 });
+    this.Addvolicrty = this.time.addEvent({ delay:5000, callback: this.updateInvagerVolocity, callbackScope: this, loop:true});
 
     //If Invaders colide with bottom of world
     this.physics.world.on('worldbounds', (body, up, down, left, right)=>{      
@@ -79,6 +82,12 @@ export default class PlayScene extends Phaser.Scene {
       }
     });
 
+    
+      //// MUSIC
+      let playMusic = this.sound.add(AudioKeys.level3,{ volume: 0.1, loop: true }); 
+      playMusic.play();
+   
+    
   }
 
   update () {
@@ -94,6 +103,7 @@ export default class PlayScene extends Phaser.Scene {
 
   restartGame(){
     // Start the game
+    this.game.sound.stopAll();
     this.scene.restart();
   }
 
@@ -136,7 +146,6 @@ export default class PlayScene extends Phaser.Scene {
         invader.label.destroy();
         invader.destroy();
         this.createInvader();
-        this.invaderVelocity += 1;
         this.updateScore(50);
         hitflag = true;
       }
@@ -183,6 +192,7 @@ export default class PlayScene extends Phaser.Scene {
     invader.body.collideWorldBounds=true;
     invader.body.onWorldBounds=true;
     invader.body.setVelocityY(this.invaderVelocity);
+    // console.log(this.invaderVelocity);
     invader.setData('answer', operators[selectedOperator].method(number1, number2));
 
     // Get text ready
@@ -216,6 +226,12 @@ export default class PlayScene extends Phaser.Scene {
     },this);
   }
 
+  updateInvagerVolocity(){
+    this.invaderVelocity += 5;
+  }
+
+
+  //// States
   gameOver() {
     this.arrayInvaders.children.each(function(invader){
       invader.body.setVelocityY(0);
