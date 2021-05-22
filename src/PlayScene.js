@@ -38,7 +38,7 @@ export default class PlayScene extends Phaser.Scene {
     
     // The top left right score
     this.score = 0;
-    this.scoreLable = '0';
+    this.scoreLabel = '0';
 
     // Input
     this.textField = '';
@@ -56,6 +56,8 @@ export default class PlayScene extends Phaser.Scene {
 		this.textInput = this.add.text(300, 125, '',  {
 			fontSize: 48,
 		}).setOrigin(0.5, 0.5);
+    this.scoreLabel = this.add.text(50, 50, '0', {fontSize:24});
+    this.scoreLabel.depth = 5;
 
     this.physics.world.setBounds(0,-100, this.cameras.main.width, this.cameras.main.height +100);
 
@@ -64,9 +66,7 @@ export default class PlayScene extends Phaser.Scene {
 
     /// Create and set Invaders through look
     this.arrayInvaders = this.add.group();
-    // this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.createInvader, callbackScope: this, loop: 5 });
     this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.createInvader, callbackScope: this,  repeat: 4 });
-
 
     //If Invaders colide with bottom of world
     this.physics.world.on('worldbounds', (body, up, down, left, right)=>{      
@@ -78,7 +78,6 @@ export default class PlayScene extends Phaser.Scene {
   }
 
   update () {
-
     if (this.paused || this.gameState !== GameState.Running)
 		{
       this.gameOver();
@@ -90,8 +89,27 @@ export default class PlayScene extends Phaser.Scene {
   }
 
   restartGame(){
-    // Start the game 
-    this.arrayInvaders.clear(true);
+    // Start the game
+
+    this.arrayInvaders.children.each(function(invader){
+      invader.label.destroy();
+      invader.destroy();
+    });
+
+    // this.arrayInvaders.clear(true);
+
+    /// The text input the put in
+		this.textInput = this.add.text(300, 125, '',  {
+			fontSize: 48,
+		}).setOrigin(0.5, 0.5);
+
+    this.scoreLabel.destroy();
+    this.scoreLabel = this.add.text(50, 50, '0', {fontSize:24});
+
+    this.time.removeEvent(this.timedEvent ); 
+
+    this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.createInvader, callbackScope: this,  repeat: 4 });
+
 
   }
 
@@ -116,6 +134,10 @@ export default class PlayScene extends Phaser.Scene {
         this.scene.playerFire(this.scene.textInput.text)
         this.scene.clearText();
       }
+
+      else if(event.key == "r") {
+        this.scene.restartGame();
+      }
      });
 	}
 
@@ -130,6 +152,7 @@ export default class PlayScene extends Phaser.Scene {
         invader.destroy();
         this.createInvader();
         this.invaderVelocity += 0.5;
+        this.updateScore(50);
         flag = true;
       }
 
@@ -148,6 +171,11 @@ export default class PlayScene extends Phaser.Scene {
 
   clearText() {
     this.textInput.text = ''; 
+  }
+
+  updateScore(number) {
+    this.score += number;
+		this.scoreLabel.text = this.score;
   }
 
   /////////////////////
