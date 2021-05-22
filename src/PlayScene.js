@@ -43,6 +43,10 @@ export default class PlayScene extends Phaser.Scene {
     // Input
     this.textField = '';
     this.textValue = 0;
+
+    // Invader Vel
+    this.invaderVelocity = 50;
+
   }
 
   create () {
@@ -77,11 +81,18 @@ export default class PlayScene extends Phaser.Scene {
 
     if (this.paused || this.gameState !== GameState.Running)
 		{
-      // this.gameOver();
+      this.gameOver();
+      this.scene.pause('play');
 			return;
 		}    
    
     this.updatInvaders();
+  }
+
+  restartGame(){
+    // Start the game 
+    this.arrayInvaders.clear(true);
+
   }
 
   processPlayerInput()
@@ -89,9 +100,9 @@ export default class PlayScene extends Phaser.Scene {
     // Grab any key
     this.input.keyboard.on('keydown', function (event) { 
 
-      console.log(event.key);
+      // console.log(event.key);
 
-      if(['1','2','3','4','5','6','7','8','9','0'].includes(event.key)) {
+      if(['-','1','2','3','4','5','6','7','8','9','0'].includes(event.key)) {
         this.scene.updateText(event.key);
       }
 
@@ -104,7 +115,6 @@ export default class PlayScene extends Phaser.Scene {
         // Send fire request
         this.scene.playerFire(this.scene.textInput.text)
         this.scene.clearText();
-
       }
      });
 	}
@@ -115,14 +125,15 @@ export default class PlayScene extends Phaser.Scene {
     let flag = false
     this.arrayInvaders.children.each(function(invader){
 
-      console.log(invader.getData('answer'));
-
       if(!flag && number == invader.getData('answer')){
+        invader.label.destroy();
         invader.destroy();
+        this.createInvader();
+        this.invaderVelocity += 0.5;
         flag = true;
       }
 
-    });
+    },this);
   }
 
   backSpace(){
@@ -149,18 +160,36 @@ export default class PlayScene extends Phaser.Scene {
     let selectedOperator = Math.floor(Math.random()*operators.length);
     let number1 = Phaser.Math.Between(0,2);
     let number2 = Phaser.Math.Between(0,2);
-    let string = [ number1,' ', operators[selectedOperator].sign , ' ' , number2].join('');
     
     // Create Invaders
-    let invader = this.arrayInvaders.create(Phaser.Math.Between(0, this.cameras.main.width), 0, 'logo').setOrigin(0.5, 0.5);
+    let invader = this.arrayInvaders.create(Phaser.Math.Between(25, this.cameras.main.width -25), 0, 'logo').setOrigin(0.5, 0.5);
     this.physics.add.existing(invader);
+    invader.depth= 3;
     invader.body.collideWorldBounds=true;
     invader.body.onWorldBounds=true;
-    invader.body.setVelocityY(20);
-    invader.label = this.add.text(invader.body.position.x, invader.body.position.x, string ,{fontSize: 48}).setOrigin(0.5, 0.5);
-    invader.setData('equation', [ number1,' ', operators[selectedOperator].sign , ' ' , number2].join(''));
+    invader.body.setVelocityY(this.invaderVelocity);
     invader.setData('answer', operators[selectedOperator].method(number1, number2));
 
+    // Get text ready
+    let labelXPos = invader.body.position.x;
+    let labelYPos = invader.body.position.y;
+    let string = [ number1, operators[selectedOperator].sign , number2].join('');
+    let textConfig = {
+      fontSize: 30, 
+      color:'#000', 
+      backgroundColor:'#fff'
+    }
+
+    if( invader.body.position.x - (invader.body.width/2) < 50 ){
+        labelXPos = 50;
+    }
+    else if( invader.body.position.x - (invader.body.width/2) > this.cameras.main.width - 50 ){
+      labelXPos = this.cameras.main.width - 50;
+  }
+
+    invader.label = this.add.text(labelXPos, labelYPos , string , textConfig).setOrigin(0.15, 0.5);
+    invader.label.depth=4;
+    // console.log(invader.label);
   }
 
   updatInvader(invader) {
