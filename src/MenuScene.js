@@ -8,7 +8,7 @@ export default class MenuScene extends Phaser.Scene {
   create () {
     this.add.image(400, 300, 'space');
 
-    this.add.text(400, 200, 'Phaser 3 with Parcel\n\n< play >', {
+    this.add.text(400, 200, 'Quick Maths \n\n< Press Enter >', {
       align: 'center',
       fill: 'white',
       fontFamily: 'sans-serif',
@@ -16,8 +16,10 @@ export default class MenuScene extends Phaser.Scene {
     })
       .setOrigin(0.5, 0);
 
-    this.input.on('pointerdown', function () {
-      this.scene.switch('play');
+    this.input.keyboard.on('keydown', function (event) {
+      if (event.key == 'Enter') {
+        this.scene.switch('play');
+      }
     }, this);
   }
 }

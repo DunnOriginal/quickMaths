@@ -20,6 +20,10 @@ const operators = [
   }
 ];
 
+const Difficulty = {
+
+}
+
 export default class PlayScene extends Phaser.Scene {
   constructor () {
     super({
@@ -45,7 +49,7 @@ export default class PlayScene extends Phaser.Scene {
     this.textValue = 0;
 
     // Invader Vel
-    this.invaderVelocity = 50;
+    this.invaderVelocity = 100;
 
   }
 
@@ -90,25 +94,7 @@ export default class PlayScene extends Phaser.Scene {
 
   restartGame(){
     // Start the game
-
-    this.arrayInvaders.children.each(function(invader){
-      invader.label.destroy();
-      invader.destroy();
-    });
-
-    // this.arrayInvaders.clear(true);
-
-    /// The text input the put in
-		this.textInput = this.add.text(300, 125, '',  {
-			fontSize: 48,
-		}).setOrigin(0.5, 0.5);
-
-    this.scoreLabel.destroy();
-    this.scoreLabel = this.add.text(50, 50, '0', {fontSize:24});
-
-    this.time.removeEvent(this.timedEvent ); 
-
-    this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.createInvader, callbackScope: this,  repeat: 4 });
+    this.scene.restart();
   }
 
   processPlayerInput()
@@ -131,6 +117,10 @@ export default class PlayScene extends Phaser.Scene {
         this.scene.clearText();
       }
 
+      else if(event.key == "p") {
+        // pause game
+      }
+
       else if(event.key == "r") {
         this.scene.restartGame();
       }
@@ -138,18 +128,18 @@ export default class PlayScene extends Phaser.Scene {
 	}
 
   playerFire(number){
-    let flag = false
+    let hitflag = false;// We only want to hit one target if each fire even if some targets have the same value
+
     this.arrayInvaders.children.each(function(invader) {
 
-      if(!flag && number == invader.getData('answer')){
+      if(!hitflag && number == invader.getData('answer')){
         invader.label.destroy();
         invader.destroy();
         this.createInvader();
-        this.invaderVelocity += 0.5;
+        this.invaderVelocity += 1;
         this.updateScore(50);
-        flag = true;
+        hitflag = true;
       }
-
     },this);
   }
 
@@ -159,8 +149,11 @@ export default class PlayScene extends Phaser.Scene {
   }
 
   updateText(key) { 
-    let text = this.textInput.text + key;
-    this.textInput.text = text; 
+    // May need to change length if we want negative numbers
+    if(this.textInput.text.length <= 2) {
+      let text = this.textInput.text + key;
+      this.textInput.text = text; 
+    }
   }
 
   clearText() {
@@ -180,8 +173,8 @@ export default class PlayScene extends Phaser.Scene {
   createInvader() {
     
     let selectedOperator = Math.floor(Math.random()*operators.length);
-    let number1 = Phaser.Math.Between(0,2);
-    let number2 = Phaser.Math.Between(0,2);
+    let number1 = Phaser.Math.Between(0,5);
+    let number2 = Phaser.Math.Between(0,number1);
     
     // Create Invaders
     let invader = this.arrayInvaders.create(Phaser.Math.Between(25, this.cameras.main.width -25), 0, 'logo').setOrigin(0.5, 0.5);
@@ -227,7 +220,11 @@ export default class PlayScene extends Phaser.Scene {
     this.arrayInvaders.children.each(function(invader){
       invader.body.setVelocityY(0);
     })
-    this.time.removeEvent(this.timedEvent); 
+    this.time.removeEvent(this.timedEvent);
+    let score = this.score;
+    this.scene.start('end', {
+      highScore: score,
+    });
     // this.timedEvent.remove(false);
   }
 
