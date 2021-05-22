@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import images from './assets/*.png';
 import sounds from './assets/sounds/*.wav' ;
 import * as AudioKeys from './consts/AudioKeys'
+import WebFontFile from './WebFontFile'
 
 export default class BootScene extends Phaser.Scene {
   constructor () {
@@ -23,13 +24,16 @@ export default class BootScene extends Phaser.Scene {
     this.load.audio(AudioKeys.level3, sounds.level3);
 		this.load.audio(AudioKeys.title, sounds.title);
 
+    const fonts = new WebFontFile(this.load, 'Press Start 2P')
+		this.load.addFile(fonts);
+
     this.load.on('progress', function (progress) {
       bar.setScale(progress, 1);
     });
   }
 
   update () {
-    this.scene.start('menu');
+    this.scene.start('story');
     // this.scene.start('play');
     // this.scene.remove();
   }
