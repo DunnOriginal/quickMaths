@@ -14,7 +14,6 @@ const ENDGAMEMESSAGE = [
   'The Robots get faster over time, be sure to rack up as much points as possible before they get too fast!',
   'Trying playing with the numpad!',
   'Take your score and divide by 50 to figure how many bots you took down that round',
-  
 ]
 
 export default class EndScene extends Phaser.Scene {
