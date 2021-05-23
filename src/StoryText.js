@@ -9,13 +9,15 @@ export default class StoryText extends Phaser.Scene {
 
     init() {
         this.content = [
-            "In the year 20XX, Robots have taken over the world",
-            "They see the humans bring no benifits to the planet", 
-            "so they plan to get ride of them",
+            "In the year 20XX, Earth Robots were created to save our planet.", 
+            "But in a totally unforeseen and original event they found humans were the root of the problem.",
+            "All over the world Robots started capturing the humans and force them to watch David Suzuki documentaries.",
             "They have withstand our most powerfull weapons and it seems like the are phycially untouchable",
-            "But the Robots do have one weakness though,",
+            "But the Robots do have one weakness though!",
             "You have a device that can send kill codes to the robots that will stop that robot in its track",
-            "Unfortunately each robot has a different code that needs to be decprited.",
+            "Unfortunately each robot has a different code that is a simple Math problem",
+            "Type in the number and press enter to fire!",
+            "Make sure they dont get to the bottom of the screen ( Thats where you are )",
             "You are the last hope for Humanity"
         ];
         
@@ -24,17 +26,18 @@ export default class StoryText extends Phaser.Scene {
         this.wordIndex = 0;
         this.lineIndex = 0;
         
-        this.wordDelay = 300;
-        this.lineDelay = 300;
+        this.wordDelay = 220;
+        this.lineDelay = 350;
     }
 
     create(){
         this.text = this.add.text(32, 32, '', { 
-            fontSize: 18,
+            fontSize: 16,
             fontFamily:'"Press Start 2P"',
             align: "left",
-            wordWrap: { width: this.cameras.main.width - 32, useAdvancedWrap: true }
+            wordWrap: { width: this.cameras.main.width - 32 }
         });
+        this.text.lineSpacing = 10;
 
         this.input.keyboard.on('keydown', function (event) { 
             if (event.key == "Enter") { 
@@ -50,7 +53,7 @@ export default class StoryText extends Phaser.Scene {
             //  We're finished
             // this.scene.start('menu');
 
-            this.add.text( 32 , this.text.height + this.text.y + 50, ' Press Enter to Continue' )
+            this.add.text( 32 , this.text.height + this.text.y , ' Press Enter to Continue' )
             return;
         }
          //  Split the current line on spaces, so one word per array element

@@ -21,8 +21,10 @@ export default class BootScene extends Phaser.Scene {
     // this.load.image('logo', images.ballred);
 
 
-    this.load.audio(AudioKeys.level3, sounds.level3);
+    this.load.audio(AudioKeys.level1, sounds.level1);
 		this.load.audio(AudioKeys.title, sounds.title);
+		this.load.audio(AudioKeys.ending, sounds.ending);
+
 
     const fonts = new WebFontFile(this.load, 'Press Start 2P')
 		this.load.addFile(fonts);

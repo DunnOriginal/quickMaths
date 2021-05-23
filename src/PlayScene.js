@@ -84,7 +84,7 @@ export default class PlayScene extends Phaser.Scene {
 
     
       //// MUSIC
-      let playMusic = this.sound.add(AudioKeys.level3,{ volume: 0.1, loop: true }); 
+      let playMusic = this.sound.add(AudioKeys.level1,{ volume: 0.1, loop: true }); 
       playMusic.play();
    
     
@@ -115,16 +115,16 @@ export default class PlayScene extends Phaser.Scene {
       // console.log(event.key);
 
       if(['-','1','2','3','4','5','6','7','8','9','0'].includes(event.key)) {
-        this.scene.updateText(event.key);
+        this.updateText(event.key);
       }
 
       else if (event.key == 'Backspace') {
-        this.scene.backSpace();
+        this.backSpace();
       }
 
       else if (event.key == "Enter") {
-        this.scene.playerFire(this.scene.textInput.text)
-        this.scene.clearText();
+        this.playerFire(this.textInput.text)
+        this.clearText();
       }
 
       else if(event.key == "p") {
@@ -132,9 +132,13 @@ export default class PlayScene extends Phaser.Scene {
       }
 
       else if(event.key == "r") {
-        this.scene.restartGame();
+        this.restartGame();
       }
-     });
+
+      else if(event.key == "q") {
+        this.gameOver();
+      }
+     }, this);
 	}
 
   playerFire(number){
