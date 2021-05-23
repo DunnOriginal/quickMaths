@@ -1,6 +1,19 @@
 import Phaser from 'phaser';
 
 
+let oldcontent = [
+    "In the year 20XX, Earth Robots were created to save our planet.", 
+    "But in a totally unforeseen and original event they found humans were the root of the problem.",
+    "All over the world Robots started capturing the humans and force them to take environmental studies.",
+    "They have withstand our most powerfull weapons and it seems like the are phycially untouchable",
+    "But the Robots do have one weakness!",
+    "You have a device that can send codes to the robots that will stop that robot in its track",
+    "Unfortunately each robot has a different code that is a simple math problem.",
+    "Type in the number and press enter to fire!",
+    "Make sure they dont get to the bottom of the screen ( Thats where you are )",
+    "You are the last hope for Humanity"
+];
+
 export default class StoryText extends Phaser.Scene { 
 
     constructor () {
@@ -11,12 +24,8 @@ export default class StoryText extends Phaser.Scene {
         this.content = [
             "In the year 20XX, Earth Robots were created to save our planet.", 
             "But in a totally unforeseen and original event they found humans were the root of the problem.",
-            "All over the world Robots started capturing the humans and force them to watch David Suzuki documentaries.",
-            "They have withstand our most powerfull weapons and it seems like the are phycially untouchable",
-            "But the Robots do have one weakness though!",
-            "You have a device that can send kill codes to the robots that will stop that robot in its track",
-            "Unfortunately each robot has a different code that is a simple Math problem",
-            "Type in the number and press enter to fire!",
+            "All over the world Robots started capturing the humans and forcing them to take environmental studies.",
+            "The only way to stop the robot is to answer the math problem, conveniently on its head!",
             "Make sure they dont get to the bottom of the screen ( Thats where you are )",
             "You are the last hope for Humanity"
         ];
@@ -26,8 +35,8 @@ export default class StoryText extends Phaser.Scene {
         this.wordIndex = 0;
         this.lineIndex = 0;
         
-        this.wordDelay = 220;
-        this.lineDelay = 350;
+        this.wordDelay = 50;
+        this.lineDelay = 450;
     }
 
     create(){
@@ -37,7 +46,7 @@ export default class StoryText extends Phaser.Scene {
             align: "left",
             wordWrap: { width: this.cameras.main.width - 32 }
         });
-        this.text.lineSpacing = 10;
+        this.text.lineSpacing = 8;
 
         this.input.keyboard.on('keydown', function (event) { 
             if (event.key == "Enter") { 
@@ -57,7 +66,7 @@ export default class StoryText extends Phaser.Scene {
             return;
         }
          //  Split the current line on spaces, so one word per array element
-        this.line = this.content[this.lineIndex].split(' ');
+        this.line = this.content[this.lineIndex].split('');
 
         //  Reset the word index to zero (the first word in the line)
         this.wordIndex = 0;
@@ -73,7 +82,7 @@ export default class StoryText extends Phaser.Scene {
     nextWord() {
 
         //  Add the next word onto the text string, followed by a space
-        this.text.text = this.text.text.concat(this.line[this.wordIndex] + " ");
+        this.text.text = this.text.text.concat(this.line[this.wordIndex]);
         // debugger;
     
         //  Advance the word index to the next word in the line
@@ -83,7 +92,7 @@ export default class StoryText extends Phaser.Scene {
         if (this.wordIndex === this.line.length)
         {
             //  Add a carriage return
-            this.text.text = this.text.text.concat("\n");
+            this.text.text = this.text.text.concat("\n\n");
     
             //  Get the next line after the lineDelay amount of ms has elapsed
             this.time.addEvent({delay:this.lineDelay, callback: this.nextLine, callbackScope:this});

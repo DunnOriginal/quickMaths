@@ -4,16 +4,17 @@ import * as AudioKeys from './consts/AudioKeys'
 
 
 const ENDGAMEMESSAGE = [
-  'If the answer is 0 for a Robot, you can hit enter without typing the number!',
+  'If the answer is 0 for a Robot, you can hit enter without typing the number!\n\n Is it a bug or feature?!?',
   'This is my first game Jam and first published game! Hope you enjoyied it',
   'If two robots have the same answer, it will only target the robot that spawned earlier',
-  'Oh no it seems you got caught, better luck next time',
   'Brag to your friends about your high score',
   'You can restart the game whenever by hitting the r key',
   'You can end the game early whenever by hitting the q key',
   'The Robots get faster over time, be sure to rack up as much points as possible before they get too fast!',
   'Trying playing with the numpad!',
   'Take your score and divide by 50 to figure how many bots you took down that round',
+  'The robots forced you into environmental studies, you came out of it learning a lot!',
+  'I used Phaser 3 and parcel to create this',
 ]
 
 export default class EndScene extends Phaser.Scene {

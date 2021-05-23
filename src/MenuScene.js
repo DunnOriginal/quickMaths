@@ -31,9 +31,6 @@ export default class MenuScene extends Phaser.Scene {
     })
       .setOrigin(1, 1);
 
-      console.log(this.cameras.main);
-      console.log(title);
-
       this.tweens.add({
         targets: title,
         alpha: 1,
@@ -48,6 +45,11 @@ export default class MenuScene extends Phaser.Scene {
       if (event.key == 'Enter') {
         this.game.sound.stopAll();
         this.scene.start('play');
+      }
+
+      else if (event.key == 'q'){
+        this.game.sound.stopAll();
+        this.scene.start('story');
       }
     }, this);
   }

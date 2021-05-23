@@ -19,6 +19,11 @@ const operators = [
   {
   sign:"*",
   method: function(a,b){ return a * b;} 
+  },
+  {
+  // TO make sure we only get whole numbers 
+  sign:"/",
+  method: function(a,b){ return (a * b)/a;} 
   }
 ];
 
@@ -186,9 +191,18 @@ export default class PlayScene extends Phaser.Scene {
   /////////////////////
   createInvader() {
     
-    let selectedOperator = Math.floor(Math.random()*operators.length);
+    
     let number1 = Phaser.Math.Between(0,5);
     let number2 = Phaser.Math.Between(0,number1);
+    let selectedOperator = Math.floor(Math.random()*operators.length);
+    
+    // This is so we dont get divide by zero
+    if( number2 == 0 && operators[selectedOperator].sign == '/' ) {
+      if(number1 == 0) {
+        number1 = Phaser.Math.Between(1,5);
+      }
+      number2 = Phaser.Math.Between(1,number1);
+    }
     
     // Create Invaders
     let invader = this.arrayInvaders.create(Phaser.Math.Between(25, this.cameras.main.width -25), 0, 'logo').setOrigin(0.5, 0.5);
@@ -197,17 +211,21 @@ export default class PlayScene extends Phaser.Scene {
     invader.body.collideWorldBounds=true;
     invader.body.onWorldBounds=true;
     invader.body.setVelocityY(this.invaderVelocity);
-    // console.log(this.invaderVelocity);
     invader.setData('answer', operators[selectedOperator].method(number1, number2));
 
     // Get text ready
     let labelXPos = invader.body.position.x;
     let labelYPos = invader.body.position.y;
-    let string = [ number1, operators[selectedOperator].sign , number2].join('');
     let textConfig = {
       fontSize: 30, 
       color:'#000', 
       backgroundColor:'#fff'
+    }
+
+    let string = [ number1, operators[selectedOperator].sign , number2].join('');
+
+    if(operators[selectedOperator].sign == '/'){
+      string = [number1 * number2, operators[selectedOperator].sign , number1].join('');
     }
 
     if( invader.body.position.x - (invader.body.width/2) < 50 ){
