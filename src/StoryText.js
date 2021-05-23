@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-
+import * as AudioKeys from './consts/AudioKeys'
 
 let oldcontent = [
     "In the year 20XX, Earth Robots were created to save our planet.", 
@@ -21,11 +21,12 @@ export default class StoryText extends Phaser.Scene {
     }
 
     init() {
+
         this.content = [
             "In the year 20XX, Earth Robots were created to save our planet.", 
             "But in a totally unforeseen and original event they found humans were the root of the problem.",
             "All over the world Robots started capturing the humans and forcing them to take environmental studies.",
-            "The only way to stop the robot is to answer the math problem, conveniently on its head!",
+            "The only way to stop these invincible robots is to answer the math problem, conveniently on their head!",
             "Make sure they dont get to the bottom of the screen ( Thats where you are )",
             "You are the last hope for Humanity"
         ];
@@ -40,13 +41,16 @@ export default class StoryText extends Phaser.Scene {
     }
 
     create(){
+        this.game.sound.stopAll();
+        let playMusic = this.sound.add(AudioKeys.title,{ volume: 0.1, loop: true }); 
+        playMusic.play();
         this.text = this.add.text(32, 32, '', { 
             fontSize: 16,
             fontFamily:'"Press Start 2P"',
             align: "left",
+            lineSpacing: 12,
             wordWrap: { width: this.cameras.main.width - 32 }
         });
-        this.text.lineSpacing = 8;
 
         this.input.keyboard.on('keydown', function (event) { 
             if (event.key == "Enter") { 

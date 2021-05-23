@@ -15,6 +15,11 @@ const ENDGAMEMESSAGE = [
   'Take your score and divide by 50 to figure how many bots you took down that round',
   'The robots forced you into environmental studies, you came out of it learning a lot!',
   'I used Phaser 3 and parcel to create this',
+  'In this game you play as the bad guy',
+  'Play this game blind folded while you have a friend shout out the answers',
+  'No robots were harmed in the making of this game',
+  'Hopefully you learned how to do math quickly'
+
 ]
 
 export default class EndScene extends Phaser.Scene {
@@ -62,13 +67,13 @@ export default class EndScene extends Phaser.Scene {
 
     let messageText = this.add.text(this.cameras.main.width/2, this.cameras.main.height -150, message, {
       align: 'center',
-      fill: 'white',
       fontFamily:'"Press Start 2P"',
       fontSize: 14,
+      lineSpacing: 10,
       wordWrap: { width: this.cameras.main.width - 32 }
     }).setOrigin(0.5, .5);
 
-    messageText.lineSpacing = 14;
+    messageText.lineSpacing = 0;
 
   }
 }

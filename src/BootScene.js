@@ -13,7 +13,7 @@ export default class BootScene extends Phaser.Scene {
     var bg = this.add.rectangle(400, 300, 400, 30, 0x666666);
     var bar = this.add.rectangle(bg.x, bg.y, bg.width, bg.height, 0xffffff).setScale(0, 1);
 
-    console.table(sounds);
+    // console.table(sounds);
 
     //https://aztrakatze.itch.io/simple-cute-robot
     this.load.image('space', images.space);
