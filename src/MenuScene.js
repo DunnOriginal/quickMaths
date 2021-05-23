@@ -83,15 +83,27 @@ export default class MenuScene extends Phaser.Scene {
     let playMusic = this.sound.add(AudioKeys.title,{ volume: 0.1, loop: true }); 
     playMusic.play();
 
-    // this.add.image(400, 300, 'space');
+    this.add.image(400, 300, 'space');
 
-    this.add.text(400, 200, 'Quick Maths \n\n< Press Enter >', {
+    let title = this.add.text(400, 180, 'Quick Maths \n\n< Press Enter >', {
       align: 'center',
       fill: 'white',
-      fontFamily: 'sans-serif',
+      fontFamily:'"Press Start 2P"',
       fontSize: 48
     })
       .setOrigin(0.5, 0);
+
+      console.log(title);
+      
+      this.tweens.add({
+        targets: title,
+        alpha: 1,
+        y: title.y + 20,
+        ease: 'Quad.easeInOut', 
+        duration: 2500,
+        repeat: -1,
+        yoyo: true
+      })
 
     this.input.keyboard.on('keydown', function (event) {
       if (event.key == 'Enter') {
