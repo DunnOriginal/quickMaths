@@ -1,19 +1,6 @@
 import Phaser from 'phaser';
 import * as AudioKeys from './consts/AudioKeys'
 
-let oldcontent = [
-    "In the year 20XX, Earth Robots were created to save our planet.", 
-    "But in a totally unforeseen and original event they found humans were the root of the problem.",
-    "All over the world Robots started capturing the humans and force them to take environmental studies.",
-    "They have withstand our most powerfull weapons and it seems like the are phycially untouchable",
-    "But the Robots do have one weakness!",
-    "You have a device that can send codes to the robots that will stop that robot in its track",
-    "Unfortunately each robot has a different code that is a simple math problem.",
-    "Type in the number and press enter to fire!",
-    "Make sure they dont get to the bottom of the screen ( Thats where you are )",
-    "You are the last hope for Humanity"
-];
-
 export default class StoryText extends Phaser.Scene { 
 
     constructor () {
@@ -87,7 +74,6 @@ export default class StoryText extends Phaser.Scene {
 
         //  Add the next word onto the text string, followed by a space
         this.text.text = this.text.text.concat(this.line[this.wordIndex]);
-        // debugger;
     
         //  Advance the word index to the next word in the line
         this.wordIndex++;
