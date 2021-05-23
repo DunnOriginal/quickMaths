@@ -6,7 +6,7 @@ import MenuScene from './MenuScene';
 import EndScene from './EndScene';
 
 export default {
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
   width: 800,
   height: 600,
   title: 'Phaser 3 with Parcel 📦',

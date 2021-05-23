@@ -59,10 +59,11 @@ export default class PlayScene extends Phaser.Scene {
     this.add.image(400, 300, 'space');
 
     /// The text input the put in
-		this.textInput = this.add.text(300, 125, '',  {
+		this.textInput = this.add.text(this.cameras.main.width/2, this.cameras.main.height - 100, '',  {
 			fontSize: 48,
+      fontFamily:'"Press Start 2P"',
 		}).setOrigin(0.5, 0.5);
-    this.scoreLabel = this.add.text(50, 50, '0', {fontSize:24});
+    this.scoreLabel = this.add.text(50, 50, '0', {fontSize:24, fontFamily:'"Press Start 2P"',});
     this.scoreLabel.depth = 5;
 
     this.physics.world.setBounds(0,-100, this.cameras.main.width, this.cameras.main.height +100);
@@ -216,7 +217,7 @@ export default class PlayScene extends Phaser.Scene {
       labelXPos = this.cameras.main.width - 50;
   }
 
-    invader.label = this.add.text(labelXPos, labelYPos , string , textConfig).setOrigin(0.15, 0.5);
+    invader.label = this.add.text(labelXPos, labelYPos , string , textConfig).setOrigin(0.15, 1);
     invader.label.depth= 4;
   }
 
